@@ -1,0 +1,14 @@
+.authContainer {
+    align-items: center;
+    background-image: url("https://media0.giphy.com/media/xUPGGDNsLvqsBOhuU0/giphy.gif?cid=792e69a2ldtq15rw9gjlwzkbac84ulqcz2682zta3dkqx90w&rid=giphy.gif&ct=g");
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+}
+
+.formContainer {
+    width: 1000px;
+    height: 90vh;
+    background-color: #fff;
+}
