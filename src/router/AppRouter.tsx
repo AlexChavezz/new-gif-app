@@ -10,7 +10,8 @@ export default () => (
     <BrowserRouter>
         <Routes>
             <Route path="/" element={<HomeScreen />} />
-            <Route path="/auth" element={<AuthScreen />} />
+            <Route path="/auth/*" element={<AuthScreen />} />
+            <Route path="*" element={ <p>Not found</p> } />
         </Routes>
     </BrowserRouter>
 )

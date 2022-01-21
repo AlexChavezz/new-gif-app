@@ -11,7 +11,13 @@ export interface InputProps {
 export interface InputButton {
     value?: string,
 }
-
+export interface LabelProps {
+    value?: string, 
+    img?: {
+        src: string, 
+        alt: string,
+    }
+}
 export interface FormProps {
     children: ReactElement | ReactElement[],
     onSubmit: (e:React.FormEvent<HTMLFormElement>) => void
