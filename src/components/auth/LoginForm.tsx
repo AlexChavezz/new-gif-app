@@ -1,9 +1,10 @@
-import React from 'react'
-import { useForm } from '../../hooks/useForm';
-import { Form, SubmitButton, Input, Label } from '../form';
+import React, { useContext } from 'react'
+import { useForm } from '../../hooks/useForm'
+import { Form, SubmitButton, Input, Label } from '../form'
 import styles from '../../styles/authStyles.module.css'
 import userLogo from '../../assests/person_black_24dp.svg'
 import passwordLogo from '../../assests/lock_black_24dp.svg'
+import { Auth } from '../../context/authContext'
 
 interface LoginFormData {
     email: string,
@@ -16,21 +17,32 @@ export const LoginForm = () => {
         password: ''
     });
     const { email, password } = values;
+    const { dispatch, state } = useContext(Auth)
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        console.log(email)
-        console.log(password)
+        dispatch({
+            type: "login", payload: {
+                user: {
+                    userName: "jose",
+                    email,
+                    uid: "9847890463"
+                },
+                token: "8374895h43ui768594"
+            }
+        })
     }
+
     return (
         <Form
             onSubmit={(e) => onSubmit(e)}
         >
             <div className={styles.formGroup}>
                 <Input
+                    type="email"
                     name="email"
                     value={email}
                     onChange={handleChange}
-                    placeHolder="Name"
+                    placeHolder="Email"
                 />
                 <Label img={{
                     src: userLogo,
