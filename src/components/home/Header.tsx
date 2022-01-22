@@ -4,7 +4,7 @@ import { useAuth } from '../../hooks/useAuth'
 
 export const Header = () => {
 
-    const { isAuthentificated, setState, setIsAuthentificated } = useAuth();
+    const { isAuthentificated, logOut } = useAuth();
 
     return (
         <header className={styles.header}>
@@ -25,31 +25,23 @@ export const Header = () => {
                         <Link to="/history" className={styles.listLink}>History</Link>
                     </li>
                     <li className={styles.listItemLine}></li>
-                    <Link to="/auth/login" className={styles.a}>
-                        {
-                            !isAuthentificated ?
-                                (
+                    {
+                        !isAuthentificated ?
+                            (
+                                <Link to="/auth/login" className={styles.a}>
                                     <li className={styles.listItemAuth}>
                                         LOGIN
                                     </li>
-
-                                )
-                                :
-                                (
-                                    <li 
-                                        className={styles.listItemAuth}
-                                        onClick={() => {
-                                            setState({ sesion: null })
-                                            setIsAuthentificated(false)
-                                            window.localStorage.removeItem('token')
-                                        }}
-                                    >
-                                        LOGOUT
-                                    </li>
-
-                                )
-                        }
-                    </Link>
+                                </Link>
+                            ) : (
+                                <li 
+                                    className={styles.listItemAuth}
+                                    onClick={ () => logOut() }
+                                >
+                                    LOGOUT
+                                </li>
+                            )
+                    }
                 </ul>
             </div>
         </header>

@@ -6,6 +6,7 @@ import {
     Routes
 } from 'react-router-dom'
 import { Auth } from '../context/authContext'
+import { useAuth } from '../hooks/useAuth'
 import { AuthState } from '../interfases/authContext.interfaces'
 import { AuthScreen, HomeScreen } from '../pages'
 
@@ -16,24 +17,15 @@ export default () => {
     const [isLoading, setIsloadng] = useState(true)
     const [state, setState] = useState<AuthState>({ sesion: null })
 
+    const { logInWhitToken } = useAuth()
+
     useEffect(() => {
         let token: any = window.localStorage.getItem('token')
         const jwt = JSON.parse(token)
         if (token) {
-            fetch("http://localhost:8080/api/auth/validate", {
-                method: "GET",
-                headers: {
-                    'x-token': jwt,
-                }
-            })
-                .then(res => res.json())
-                .then(res => {
-                    setState({ ...res, token })
-                    setIsAuthentificated(true)
-                    setIsloadng(false)
-                })
+           logInWhitToken( jwt )
         } else {
-            setIsloadng(false)
+            setIsloadng( false )
         }
     }, [])
     if (isLoading) {
