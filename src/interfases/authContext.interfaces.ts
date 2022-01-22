@@ -1,15 +1,15 @@
 
-export interface AuthState {
-    sesion: User| null
-}
+// export interface AuthState {
+//     sesion: User| null
+// }
 
-interface User {
+export interface AuthState {
     sesion: {
         name: string,
         email: string,
         uid: string
         token: string
-    }
+    } | null
 }
 
 
