@@ -4,7 +4,7 @@ import { useAuth } from '../../hooks/useAuth'
 
 export const Header = () => {
 
-    const { isAuthentificated, logOut } = useAuth();
+    const { isAuthentificated, logout } = useAuth();
 
     return (
         <header className={styles.header}>
@@ -36,7 +36,7 @@ export const Header = () => {
                             ) : (
                                 <li 
                                     className={styles.listItemAuth}
-                                    onClick={ () => logOut() }
+                                    onClick={ () => logout() }
                                 >
                                     LOGOUT
                                 </li>

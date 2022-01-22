@@ -24,7 +24,7 @@ export const RegisterForm = () => {
     })
     const { name, email, password, confirmPassword } = values;
 
-    const { setState, setIsAuthentificated, state } = useAuth()
+    const { setAuth, auth } = useAuth()
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -43,7 +43,7 @@ export const RegisterForm = () => {
             const data = await response.json()
             if (data.user) {
                 window.localStorage.setItem('token', JSON.stringify(data.token))
-                setState({
+                setAuth({
                     sesion: {
                         email: data.user.email,
                         name: data.user.name,
@@ -51,8 +51,8 @@ export const RegisterForm = () => {
                         token: data.token
                     }
                 })
-                setIsAuthentificated(true)
-                console.log(state)
+                // setIsAuthentificated(true)
+                console.log(auth)
             }
         } catch (error) {
             console.log(error)
@@ -66,6 +66,7 @@ export const RegisterForm = () => {
         >
             <div className={styles.formGroup}>
                 <Input
+                    styles={ styles.input }
                     name="name"
                     value={name}
                     onChange={handleChange}
@@ -80,6 +81,7 @@ export const RegisterForm = () => {
             </div>
             <div className={styles.formGroup}>
                 <Input
+                    styles={ styles.input }
                     type="email"
                     name="email"
                     value={email}
@@ -95,6 +97,7 @@ export const RegisterForm = () => {
             </div>
             <div className={styles.formGroup}>
                 <Input
+                    styles={ styles.input }
                     type="password"
                     name="password"
                     value={password}
@@ -111,6 +114,7 @@ export const RegisterForm = () => {
             </div>
             <div className={styles.formGroup}>
                 <Input
+                    styles={ styles.input }
                     type="password"
                     name="confirmPassword"
                     value={confirmPassword}
@@ -124,7 +128,9 @@ export const RegisterForm = () => {
                     }}
                 />
             </div>
-            <SubmitButton value="Register" />
+            <SubmitButton value="Register" 
+                styles={ styles.submit }
+            />
         </Form>
     )
 }

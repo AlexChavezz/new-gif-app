@@ -3,60 +3,50 @@ import { Auth } from "../context/authContext";
 
 
 export const useAuth = () => {
-    const { state, setState, setIsAuthentificated, isAuthentificated } = useContext(Auth)
-    const [ isLoading, setIsLoading ] = useState(true)
-    const logOut = () => {
+    const { auth, setAuth, setIsAuthentificated, isAuthentificated, setIsLoading } = useContext(Auth)
+    const logout = () => {
         window.localStorage.removeItem('token')
-        setState({ sesion: null })
+        setAuth({ sesion: null })
         setIsAuthentificated(false)
     }
-
-    const logInWhitToken = ( token: string  ) => {
-        fetch("http://localhost:8080/api/auth/validate", {
-            method: "GET",
-            headers: {
-                'x-token': token,
-            }
-        })
-            .then(res => res.json())
-            .then(res => {
-                if (res.unAuthorized) {
-                    setIsAuthentificated(false)
-                    setIsLoading(false)
-                } else {
-                    setState({ ...res, token })
-                    setIsAuthentificated(true)
-                    setIsLoading(false)
-                }
-            })
-    }
-    const logInWithOutToken = ( email: string , password: string) => {
+    const logInWithOutToken = (email: string, password: string) => {
         fetch("http://localhost:8080/api/auth/login", {
-            method: "POST", 
+            method: "POST",
             headers: {
                 'Content-Type': 'application/json'
-            }, 
+            },
             body: JSON.stringify({
-                email, 
+                email,
                 password,
             })
         })
-        .then( res=> res.json() )
-        .then( res => {
-            setIsAuthentificated(true)
-            setState( res )
-            localStorage.setItem( 'token', JSON.stringify( res.token ))
-        })
+            .then(res => res.json())
+            .then(res => {
+                setIsAuthentificated(true)
+                setAuth({
+                    sesion: {
+                        email: res.user.email,
+                        name: res.user.name,
+                        uid: res.user.uid,
+                        token: res.token
+                    }
+                })
+                localStorage.setItem('token', JSON.stringify(res.token))
+            })
     }
 
+    // -> Pendings 
+
+    // -> Function to change loading setIsLoading
+
+    // -> Function to create a new user 'RegisterForm.tsx'
+
     return {
-        state,
+        auth,
         isAuthentificated,
-        isLoading,
-        setState,
-        setIsAuthentificated,
-        logOut,
-        logInWhitToken,
-        logInWithOutToken
+        setAuth,
+        logout,
+        // logInWhitToken,
+        logInWithOutToken,
     }
 }

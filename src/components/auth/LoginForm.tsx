@@ -1,10 +1,8 @@
-import React, { useContext } from 'react'
 import { useForm } from '../../hooks/useForm'
 import { Form, SubmitButton, Input, Label } from '../form'
 import styles from '../../styles/authStyles.module.css'
 import userLogo from '../../assests/person_black_24dp.svg'
 import passwordLogo from '../../assests/lock_black_24dp.svg'
-import { Auth } from '../../context/authContext'
 import { useAuth } from '../../hooks/useAuth'
 
 interface LoginFormData {
@@ -21,7 +19,7 @@ export const LoginForm = () => {
     const { logInWithOutToken } = useAuth()
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        logInWithOutToken( email, password)
+        logInWithOutToken( email, password )
     }
 
     return (
@@ -30,6 +28,7 @@ export const LoginForm = () => {
         >
             <div className={styles.formGroup}>
                 <Input
+                    styles={ styles.input }
                     type="email"
                     name="email"
                     value={email}
@@ -43,6 +42,7 @@ export const LoginForm = () => {
             </div>
             <div className={styles.formGroup}>
                 <Input
+                    styles={ styles.input }
                     type="password"
                     name="password" value={password}
                     onChange={handleChange}
@@ -53,7 +53,7 @@ export const LoginForm = () => {
                     alt: "password-img"
                 }} />
             </div>
-            <SubmitButton value="Login" />
+            <SubmitButton value="Login" styles={ styles.submit }/>
         </Form>
     )
 }

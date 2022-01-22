@@ -1,9 +1,8 @@
 import { InputButton } from "../../interfases/authInterfaces";
-import styles from '../../styles/authStyles.module.css'
 
-export const SubmitButton  = ({ value="submit" }:InputButton) => 
+export const SubmitButton  = ({ value="submit", styles }:InputButton) => 
 <input
     type="submit"
-    className={ styles.submit}
+    className={ styles }
     value={ value }
 />

@@ -6,7 +6,6 @@ import {
     Routes
 } from 'react-router-dom'
 import { Auth } from '../context/authContext'
-import { useAuth } from '../hooks/useAuth'
 import { AuthState } from '../interfases/authContext.interfaces'
 import { AuthScreen, HomeScreen } from '../pages'
 
@@ -14,18 +13,36 @@ import { AuthScreen, HomeScreen } from '../pages'
 
 export default () => {
     const [isAuthentificated, setIsAuthentificated] = useState(false)
-    const [isLoading, setIsloadng] = useState(true)
-    const [state, setState] = useState<AuthState>({ sesion: null })
-
-    const { logInWhitToken } = useAuth()
+    const [isLoading, setIsLoading] = useState(true)
+    const [auth, setAuth] = useState<AuthState>({ sesion: null })
 
     useEffect(() => {
         let token: any = window.localStorage.getItem('token')
         const jwt = JSON.parse(token)
         if (token) {
-           logInWhitToken( jwt )
+            
+            fetch("http://localhost:8080/api/auth/validate", {
+                method: "GET",
+                headers: {
+                    'x-token': jwt,
+                }
+            })
+                .then(res => res.json())
+                .then(res => {
+                   if ( res.error ){
+                       console.log( 'error' )
+                   }
+                   setAuth( { sesion: {
+                            ...res, 
+                            token: jwt
+                        } })
+                        setIsAuthentificated(true)
+                        setIsLoading(false)
+                })
+                .catch( console.log )
+        //    logInWhitToken( jwt )
         } else {
-            setIsloadng( false )
+            setIsLoading( false )
         }
     }, [])
     if (isLoading) {
@@ -33,10 +50,11 @@ export default () => {
     }
     return (
         <Auth.Provider value={{
-            state,
-            setState,
+            auth,
+            setAuth,
             setIsAuthentificated,
-            isAuthentificated
+            isAuthentificated, 
+            setIsLoading
         }}>
             <BrowserRouter>
                 <Routes>

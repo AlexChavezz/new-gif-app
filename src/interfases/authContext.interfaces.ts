@@ -10,8 +10,9 @@ export interface AuthState {
 
 
 export interface AuthContext {
-    state: AuthState | null, 
+    auth: AuthState | null, 
     isAuthentificated: boolean,
     setIsAuthentificated:  React.Dispatch<React.SetStateAction<boolean>>,
-    setState: React.Dispatch<React.SetStateAction<AuthState>>
+    setAuth: React.Dispatch<React.SetStateAction<AuthState>>
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>, 
 }

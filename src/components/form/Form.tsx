@@ -1,11 +1,11 @@
 import { FormProps } from "../../interfases/authInterfaces"
 import styles from '../../styles/authStyles.module.css'
 
-export const Form = ({ children, onSubmit }:FormProps) => {
+export const Form = ({ children, onSubmit, styles }:FormProps) => {
     return (
         <form
             onSubmit={ (e) => onSubmit(e) }
-            className={ styles.form }
+            className={ styles }
         >
             { children }
         </form>

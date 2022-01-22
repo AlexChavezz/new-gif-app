@@ -6,10 +6,12 @@ export interface InputProps {
     name: string,
     value: string,
     onChange: ({ target }: ChangeEvent<HTMLInputElement>) => void
+    styles: string
 }
 
 export interface InputButton {
     value?: string,
+    styles?: string, 
 }
 export interface LabelProps {
     value?: string, 
@@ -20,6 +22,7 @@ export interface LabelProps {
 }
 export interface FormProps {
     children: ReactElement | ReactElement[],
+    styles?: string,
     onSubmit: (e:React.FormEvent<HTMLFormElement>) => void
 }
 export interface LoginAuthForm {
