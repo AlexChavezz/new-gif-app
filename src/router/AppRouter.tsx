@@ -1,4 +1,4 @@
-import { useState, useReducer, createContext, useEffect } from 'react'
+import { useState, useEffect, } from 'react'
 import {
     BrowserRouter,
     Navigate,
@@ -6,41 +6,45 @@ import {
     Routes
 } from 'react-router-dom'
 import { Auth } from '../context/authContext'
-import { authState } from '../interfases/authContext.interfaces'
+import { AuthState } from '../interfases/authContext.interfaces'
 import { AuthScreen, HomeScreen } from '../pages'
-import { authReducer } from '../reducers/authReducer'
 
 
-const stateModel: authState = {
-    user: {
-        userName: '',
-        email: '',
-        uid: '',
-    },
-    token: '',
-}
 
 export default () => {
     const [isAuthentificated, setIsAuthentificated] = useState(false)
-    const [state, dispatch] = useReducer(authReducer, stateModel)
-    console.log(state)
-    useEffect(() => {
+    const [isLoading, setIsloadng] = useState(true)
+    const [state, setState] = useState<AuthState>({ sesion: null })
 
-        // dispatch({
-        //     type: "login", payload: {
-        //         user: {
-        //             userName: "alexis",
-        //             email: "alexis@email.com",
-        //             uid: "61eb5080f3e46b3e43642452"
-        //         },
-        //         token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MWViNTA4MGYzZTQ2YjNlNDM2NDI0NTIiLCJpYXQiOjE2NDI4MTE1MjAsImV4cCI6MTY0MjgxODcyMH0.YL7UD_p7Cz5epIoqLT3LfXCBRKYbBQMyIn5zpkci4Bw"
-        //     }
-        // })
+    useEffect(() => {
+        let token: any = window.localStorage.getItem('token')
+        const jwt = JSON.parse(token)
+        if (token) {
+            fetch("http://localhost:8080/api/auth/validate", {
+                method: "GET",
+                headers: {
+                    'x-token': jwt,
+                }
+            })
+                .then(res => res.json())
+                .then(res => {
+                    setState({ ...res, token })
+                    setIsAuthentificated(true)
+                    setIsloadng(false)
+                })
+        } else {
+            setIsloadng(false)
+        }
     }, [])
+    if (isLoading) {
+        return <>Loading</>
+    }
     return (
         <Auth.Provider value={{
             state,
-            dispatch
+            setState,
+            setIsAuthentificated,
+            isAuthentificated
         }}>
             <BrowserRouter>
                 <Routes>

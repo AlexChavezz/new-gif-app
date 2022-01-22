@@ -17,18 +17,24 @@ export const LoginForm = () => {
         password: ''
     });
     const { email, password } = values;
-    const { dispatch, state } = useContext(Auth)
+    const { setState, setIsAuthentificated } = useContext(Auth)
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        dispatch({
-            type: "login", payload: {
-                user: {
-                    userName: "jose",
-                    email,
-                    uid: "9847890463"
-                },
-                token: "8374895h43ui768594"
-            }
+        fetch("http://localhost:8080/api/auth/login", {
+            method: "POST", 
+            headers: {
+                'Content-Type': 'application/json'
+            }, 
+            body: JSON.stringify({
+                email, 
+                password,
+            })
+        })
+        .then( res=> res.json() )
+        .then( res => {
+            setIsAuthentificated(true)
+            setState( res )
+            localStorage.setItem( 'token', JSON.stringify( res.token ))
         })
     }
 

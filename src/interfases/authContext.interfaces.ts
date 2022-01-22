@@ -1,22 +1,21 @@
 
-export type authAction = { type: 'login', payload: authState }
-export interface authState {
-    user: {
-        userName: string,
+export interface AuthState {
+    sesion: User| null
+}
+
+interface User {
+    sesion: {
+        name: string,
         email: string,
         uid: string
-    },
-    token: string
+        token: string
+    }
 }
-interface UserAuth {
-    user: {
-        userName: string
-        email: string,
-        uid: string,
-    },
-    token: string
-}
+
+
 export interface AuthContext {
-    state: UserAuth
-    dispatch: (value: authAction) => void
+    state: AuthState | null, 
+    isAuthentificated: boolean,
+    setIsAuthentificated:  React.Dispatch<React.SetStateAction<boolean>>,
+    setState: React.Dispatch<React.SetStateAction<AuthState>>
 }
