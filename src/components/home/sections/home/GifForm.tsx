@@ -1,24 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Gif } from '../../../../context/gifsContext';
 import { useForm } from '../../../../hooks/useForm'
 import styles from '../../../../styles/homeStyles.module.css'
 import { Form, Input, SubmitButton } from '../../../form'
 
 interface GifForm {
-    search: string, 
-}
-interface GifFormProps {
-    setCategory: React.Dispatch<React.SetStateAction<string>>
+    search: string 
 }
 
-export const GifForm = ({ setCategory }: GifFormProps) => {
+export const GifForm = () => {
     
     const { values, handleChange } = useForm<GifForm>({
         search: ''
     });
-    
+
+    const { setCategories } = useContext( Gif )
+
     const onSubmit = (e:React.FormEvent) => {
         e.preventDefault()
-        setCategory( values.search)
+        setCategories( category => [values.search, ...category])
     }
 
     return (

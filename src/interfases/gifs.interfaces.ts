@@ -1,14 +1,8 @@
 
 
+
 export interface GifContext {
-    categories: Categories,
-    setCategories: React.Dispatch<React.SetStateAction<Gif[]>> 
+    categories: string[],
+    setCategories: React.Dispatch<React.SetStateAction<string[]>> 
 }
-
-export interface Gif {
-    id: string, 
-    title: string,
-    url: string
-}
-
-export type Categories = Gif[]
+// export type Categories = string[] 

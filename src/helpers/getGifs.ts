@@ -1,28 +1,14 @@
-import { Gif } from "../interfases/gifs.interfaces"
 
-export const getGifs = async ( category: string ) => {
-    const url = `https://api.giphy.com/v1/gifs/search?q=${ encodeURI( category ) }&lImit=20&api_key=1ywURhrBl5cdf1Eqb0nCB2PLVy7Yme9o`
-    let gif
-    try {
-        window.fetch( url )
-        .then( res=> res.json())
-        .then( ({data}) => {
-            gif = {
-                id: data.id,
-                title: data.title,
-                // url: data.images.downsized_medium.url
-            }
-        })
-        
-        
-        // gif = {
-        //         id: data.id, 
-        //         title: data.title,
-        //         url: data.images.downsized_medium.url
-        //     }
-    }catch(error){
+export const getGifs = async (category: string) => {
+    const url = `https://api.giphy.com/v1/gifs/search?q=${encodeURI(category)}&lImit=20&api_key=1ywURhrBl5cdf1Eqb0nCB2PLVy7Yme9o`
 
-    }
-    console.log( gif )
-    return gif;
+    const response = await window.fetch(url)
+    const { data } = await response.json()
+    return data.map( (gif:any) => ({
+        id: gif.id, 
+        title: gif.title, 
+        url: gif.images.downsized_medium.url,
+        height: gif.images.downsized_medium.height,
+        width: gif.images.downsized_medium.width
+    }))
 }

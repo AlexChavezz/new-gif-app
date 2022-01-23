@@ -1,28 +1,22 @@
 import { useContext, useEffect, useState } from 'react'
 import { Gif } from '../../../../context/gifsContext'
-import { getGifs } from '../../../../helpers/getGifs';
-import { GifItem } from './GifItem';
+// import { getGifs } from '../../../../helpers/getGifs';
+// import { useFetchGif } from '../../../../hooks/useFetchGif';
+import { GifItem } from './GifItem'
+import styles from '../../../../styles/homeStyles.module.css'
+import { useFetchGif } from '../../../../hooks/useFetchGif'
 
-interface GifsLayoutProps {
-    category: string 
-}
-
-export const GifsLayout = ({ category }:GifsLayoutProps) => {
-    
-    const { categories } = useContext( Gif )
-
-    useEffect(() => {
-        async function load(){
-            const data = await getGifs( category )
-            console.log(data)
-        }
-        load()
-    }, [category]);
+export const GifsLayout = () => {
+    const { categories } = useContext(Gif)
+    // const numeros :string[] = ['alexis', 'jose', 'maria']
     return (
-        <section>
+        <article className={ styles.gitTargetContainer }>
             {
-                // categories.map( gif => <GifItem {...gif}  key={ gif.id }/>)
+                categories.map( category => 
+                    <GifItem category={category} key={ category }/>
+                )
             }
-        </section>
+        </article>
     )
 }
+

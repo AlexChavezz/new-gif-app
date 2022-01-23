@@ -9,14 +9,13 @@ import { Auth } from '../context/authContext'
 import { AuthState } from '../interfases/authContext.interfaces'
 import { AuthScreen, HomeScreen } from '../pages'
 import { Gif } from '../context/gifsContext'
-import { Categories } from '../interfases/gifs.interfaces'
 
 
 export default () => {
     const [isAuthentificated, setIsAuthentificated] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
     const [auth, setAuth] = useState<AuthState>({ sesion: null })
-    const [categories, setCategories] = useState<Categories>([])
+    const [categories, setCategories] = useState<string[]>([])
     useEffect(() => {
         let token: any = window.localStorage.getItem('token')
         const jwt = JSON.parse(token)
@@ -50,12 +49,10 @@ export default () => {
     }, [])
     if (isLoading) {
         return (
-            <>
-                <div className="spinner">
-                    <div className="double-bounce1"></div>
-                    <div className="double-bounce2"></div>
-                </div>
-            </>
+            <div className="spinner">
+                <div className="double-bounce1"></div>
+                <div className="double-bounce2"></div>
+            </div>
         )
     }
     return (
