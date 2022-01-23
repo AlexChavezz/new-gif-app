@@ -32,14 +32,44 @@ export const useAuth = () => {
                     }
                 })
                 localStorage.setItem('token', JSON.stringify(res.token))
+                setIsLoading( false )
             })
     }
 
+    const createNewUser = async (name:string, email:string, password: string ) => {
+        try {
+            const response = await fetch("http://localhost:8080/api/auth/register", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name,
+                    email,
+                    password
+                })
+            })
+            const data = await response.json()
+            if (data.user) {
+                window.localStorage.setItem('token', JSON.stringify(data.token))
+                setAuth({
+                    sesion: {
+                        email: data.user.email,
+                        name: data.user.name,
+                        uid: data.user.uid,
+                        token: data.token
+                    }
+                })
+                setIsAuthentificated(true)
+                setIsLoading(false)
+            }
+        }catch( error ){
+            throw new Error("Error try again")
+        }
+    }
     // -> Pendings 
 
     // -> Function to change loading setIsLoading
-
-    // -> Function to create a new user 'RegisterForm.tsx'
 
     return {
         auth,
@@ -48,5 +78,7 @@ export const useAuth = () => {
         logout,
         // logInWhitToken,
         logInWithOutToken,
+        createNewUser, 
+        setIsLoading
     }
 }

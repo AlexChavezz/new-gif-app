@@ -102,6 +102,10 @@
 /* .gifFormContainer {
 
 } */
+.gifFormContainer {
+    display: flex;
+    justify-content: center;
+}
 .gifForm {
     align-items: center;
     display: flex;

@@ -6,8 +6,11 @@ import { Form, Input, SubmitButton } from '../../../form'
 interface GifForm {
     search: string, 
 }
+interface GifFormProps {
+    setCategory: React.Dispatch<React.SetStateAction<string>>
+}
 
-export const GifForm = () => {
+export const GifForm = ({ setCategory }: GifFormProps) => {
     
     const { values, handleChange } = useForm<GifForm>({
         search: ''
@@ -15,12 +18,12 @@ export const GifForm = () => {
     
     const onSubmit = (e:React.FormEvent) => {
         e.preventDefault()
-        console.log( values.search )
+        setCategory( values.search)
     }
 
     return (
         <Form
-            onSubmit={ e =>onSubmit(e)}
+            onSubmit={ e => onSubmit(e)}
             styles={ styles.gifForm }
         >
             <Input 

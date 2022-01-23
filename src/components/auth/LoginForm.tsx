@@ -16,9 +16,10 @@ export const LoginForm = () => {
         password: ''
     });
     const { email, password } = values;
-    const { logInWithOutToken } = useAuth()
+    const { logInWithOutToken, setIsLoading } = useAuth()
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        setIsLoading( true )
         logInWithOutToken( email, password )
     }
 

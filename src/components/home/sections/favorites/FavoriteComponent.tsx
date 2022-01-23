@@ -3,8 +3,7 @@ import { AccessDenied } from "../AccessDenied"
 import styles from '../../../../styles/homeStyles.module.css' 
 
 export const FavoriteComponent = () => {
-    const { isAuthentificated, auth } = useAuth()
-    console.log(auth);
+    const { isAuthentificated } = useAuth()
     
     return (
         <section className={styles.container}>

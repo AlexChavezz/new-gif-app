@@ -24,40 +24,12 @@ export const RegisterForm = () => {
     })
     const { name, email, password, confirmPassword } = values;
 
-    const { setAuth, auth } = useAuth()
+    const { createNewUser, setIsLoading } = useAuth()
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        try {
-            const response = await fetch("http://localhost:8080/api/auth/register", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    name,
-                    email,
-                    password
-                })
-            })
-            const data = await response.json()
-            if (data.user) {
-                window.localStorage.setItem('token', JSON.stringify(data.token))
-                setAuth({
-                    sesion: {
-                        email: data.user.email,
-                        name: data.user.name,
-                        uid: data.user.uid,
-                        token: data.token
-                    }
-                })
-                // setIsAuthentificated(true)
-                console.log(auth)
-            }
-        } catch (error) {
-            console.log(error)
-        }
-
+        setIsLoading( true )
+        createNewUser( name, email, password )
     }
 
     return (
