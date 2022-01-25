@@ -1,22 +1,37 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { getGifs } from "../helpers/getGifs"
 
 interface State {
-    data:[], 
+    data: [],
     loading: boolean
 }
 
 
-export const useFetchGif = ( category: string):State => {
-    const [ state, setState ] = useState<State>({
-        data: [], 
+export const useFetchGif = (category: string): State => {
+    const [state, setState] = useState<State>({
+        data: [],
         loading: true
     })
+    const isMounted = useRef(true)
+
     useEffect(() => {
-        getGifs( category ).then( imgs => setState({
-            data: imgs, 
-            loading: false
-        }))
+        return () => {
+            isMounted.current = false
+        }
+    })
+
+    useEffect(() => {
+        setTimeout(() => {
+            getGifs(category).then(imgs => {
+                if (isMounted.current) {
+                    setState({
+                        data: imgs,
+                        loading: false
+                    })
+                }
+            }
+            )
+        }, 2000);
     }, [category])
     return state;
 }
