@@ -9,6 +9,7 @@ export const getGifs = async (category: string) => {
         title: gif.title, 
         url: gif.images.downsized_medium.url,
         height: gif.images.downsized_medium.height,
-        width: gif.images.downsized_medium.width
+        width: gif.images.downsized_medium.width, 
+        giphyUrl: gif.url 
     }))
 }

@@ -3,6 +3,7 @@ import styles from '.././styles/homeStyles.module.css'
 import { FavoriteComponent } from '../components/home/sections/favorites/FavoriteComponent'
 import { Header } from '../components/home/Header'
 import { HomeComponent } from '../components/home/sections/home/HomeComponent'
+import { HistoryComponent } from '../components/home/sections/history/HistoryComponent'
 
 export const HomeScreen = () => {
     return (
@@ -12,7 +13,7 @@ export const HomeScreen = () => {
                 <Routes>
                     <Route path="/" element={< HomeComponent />} />
                     <Route path="/favorites" element={<FavoriteComponent />} />
-                    <Route path="/history" element={<h2>History</h2>} />
+                    <Route path="/history" element={<HistoryComponent />} />
                 </Routes>
             </section>
         </>

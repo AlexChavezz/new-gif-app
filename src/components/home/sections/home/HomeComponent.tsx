@@ -5,16 +5,12 @@ import { GifForm } from './GifForm'
 import { GifsLayout } from './GifsLayout'
 
 
-export const HomeComponent = () => {
-
-    // const { categories, setCategories } = useContext( Gif )
-
-    return (
-        <section className={ styles.container }>
-            <article className={ styles.gifFormContainer }>
-                <GifForm />
-                <GifsLayout />
-            </article>
-        </section>
-        )
-}
+export const HomeComponent = () =>
+(
+    <section className={styles.container}>
+        <article className={styles.gifFormContainer}>
+            <GifForm />
+            <GifsLayout />
+        </article>
+    </section>
+)

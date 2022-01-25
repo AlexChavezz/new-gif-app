@@ -1,4 +1,4 @@
-import React, { ChangeEvent, ReactElement } from "react";
+import React, { ChangeEvent, HTMLInputTypeAttribute, ReactElement } from "react";
 
 export interface InputProps {
     type?: string,
@@ -6,7 +6,8 @@ export interface InputProps {
     name: string,
     value: string,
     onChange: ({ target }: ChangeEvent<HTMLInputElement>) => void
-    styles: string
+    styles: string,
+
 }
 
 export interface InputButton {

@@ -1,4 +1,4 @@
-import { InputButton } from "../../interfases/authInterfaces";
+import { InputButton } from "../../interfases/formInterfaces";
 
 export const SubmitButton  = ({ value="submit", styles }:InputButton) => 
 <input

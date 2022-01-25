@@ -117,7 +117,7 @@
 .gifInput {
     border: 1px solid #6C63FF;
     border-radius: 2px;
-    padding: 10px;
+    padding: 20px;
     outline: none;
     height: 30px;
     width: 600px;
@@ -128,9 +128,9 @@
 
 .gifSubmit {
     transition: transform 200ms ease;
-    background-color: #6C63FF;
-    padding: 5px 20px;
-    color: white;
+    background-color: transparent;
+    padding: 10px 25px;
+    color: #6C63FF;
     border: 1px solid #6C63FF;
     box-shadow: 1px -2px 2px #6C63FF;
 }
@@ -142,13 +142,126 @@
     flex-wrap: wrap;
     width: 100%;
     justify-content: center;
+    height: calc( 100vh - 125px);
+    overflow-y:scroll;
 }
 .gifTarget {
     margin:10px;
     width: 400px;
-    min-height: 200px;
+    height: 400px;
+    border: 1px solid #ccc;
+}
+.gifTitlte {
+    border-bottom: 2px solid #6C63FF;
+    color: #6C63FF;/*
+    background-color: #6C63FF; */
+    text-transform: uppercase;
+    padding: 15px;
+    font-size: 22px;
+    text-align: center;
+    width: 100%;
 }
 .gifImg {
     display:block;
     width: 100%;
+    height: 200px;
+}
+.gifTargetInfo { 
+    width: 100%;
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    flex-direction: column;
+}
+.gifTargetInfoTitle {
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    margin: 10px;
+    font-family: cursive;
+}
+.gifTargetButtonsContainer {
+    display: flex;
+}
+.gifTargetButton {
+    margin: 60px 10px 10px 10px;
+    text-decoration: none;
+    color: #6C63FF;
+}
+.gifTargetButton:first-child {
+    border-bottom:1px solid #6C63FF;
+    line-height: 39px;
+}
+.gifTargetButton:nth-child(2) {
+    transition: background 200ms ease;
+    background: transparent;
+    padding: 10px;
+    border-color: #6C63FF;
+}
+.gifTargetButton:nth-child(2):hover {
+    color: #fffe;
+    background-color: #6C63FF;
+}
+
+/*
+
+    -> History Page
+
+*/
+.historyDelete {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+}
+.historyButtonDeleteAll {
+    transition: transform 200ms ease;
+    width: 100px;
+    height: 30px;
+    color: #fff;
+    background-color: #dc3545;
+    border:1px solid #dc3545;
+}
+.historyButtonDeleteAll:active {
+    transform: scale( .8);
+}
+.historyTable {
+    width: 800px;
+    margin: 0px auto;
+    border: 1px solid #ccc;
+}
+.td {
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+.td:first-child {
+    width: 40%;
+}
+
+.td:nth-child(2) {
+    width: 40%;
+}
+.td:nth-child(3) {
+    width: 20%;
+}
+
+.tableDeleteButton {
+    background-color:#dc3545;
+    border: 1px solid #dc3545;
+    color: white;
+    cursor: pointer;
+    display: block;
+    margin:0px auto;
+    padding: 5px;
+}
+.tableDeleteButton:hover {
+    box-shadow: 1px 1px 2px #dc3545;
+}
+.imgHistoryContainer {
+    width: 100%;
+    height: calc(100% - 100px);
+    display: flex;
+    align-items: center;
+    justify-content:center;
 }

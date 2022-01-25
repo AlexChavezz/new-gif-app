@@ -1,4 +1,4 @@
-import { LabelProps } from "../../interfases/authInterfaces";
+import { LabelProps } from "../../interfases/formInterfaces";
 import styles from '../../styles/authStyles.module.css'
 
 export const Label = ({ img }: LabelProps) =>
