@@ -9,6 +9,13 @@ import { Auth } from '../context/authContext'
 import { AuthState } from '../interfases/authContext.interfaces'
 import { AuthScreen, HomeScreen } from '../pages'
 import { Gif } from '../context/gifsContext'
+import { FavoriteGifs, State } from '../interfases/gifs.interfaces'
+// import { useAuth } from '../hooks/useAuth'
+import { collection, getDocs } from 'firebase/firestore'
+import { db } from '../firebase/config'
+import { useFetchGif } from '../hooks/useFetchGif'
+import { useFavoriteGifs } from '../hooks/useFavoriteGifs'
+
 
 
 export default () => {
@@ -16,6 +23,11 @@ export default () => {
     const [isLoading, setIsLoading] = useState(true)
     const [auth, setAuth] = useState<AuthState>({ sesion: null })
     const [categories, setCategories] = useState<string[]>([])
+    const [ favoriteGifs, setFavoriteGifs ] = useState<FavoriteGifs>([{}])
+
+    const {  loadFavoritesGifs }  = useFavoriteGifs()
+
+
     useEffect(() => {
         let token: any = window.localStorage.getItem('token')
         const jwt = JSON.parse(token)
@@ -31,13 +43,15 @@ export default () => {
                 .then(res => {
                     if (res.error) {
                         console.log('error')
-                    }
-                    setAuth({
-                        sesion: {
-                            ...res,
-                            token: jwt
-                        }
-                    })
+                    }else {
+                        setAuth({
+                            sesion: {
+                                ...res,
+                                token: jwt
+                            }
+                        })
+                    loadFavoritesGifs(res.uid).then( (res:any):void => setFavoriteGifs( res ))
+                }
                     setIsAuthentificated(true)
                     setIsLoading(false)
                 })
@@ -65,7 +79,9 @@ export default () => {
         }}>
             <Gif.Provider value={{
                 categories,
-                setCategories
+                setCategories, 
+                favoriteGifs, 
+                setFavoriteGifs
             }}>
                 <BrowserRouter>
                     <Routes>

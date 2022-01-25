@@ -21,17 +21,14 @@ export const useFetchGif = (category: string): State => {
     })
 
     useEffect(() => {
-        setTimeout(() => {
-            getGifs(category).then(imgs => {
-                if (isMounted.current) {
-                    setState({
-                        data: imgs,
-                        loading: false
-                    })
-                }
+        getGifs(category).then(imgs => {
+            if (isMounted.current) {
+                setState({
+                    data: imgs,
+                    loading: false
+                })
             }
-            )
-        }, 2000);
+        })
     }, [category])
     return state;
 }

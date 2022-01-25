@@ -1,9 +1,12 @@
 
 
+export type FavoriteGifs = State[] | [{}]
 
 export interface GifContext {
     categories: string[],
-    setCategories: React.Dispatch<React.SetStateAction<string[]>> 
+    setCategories: React.Dispatch<React.SetStateAction<string[]>>,
+    favoriteGifs:FavoriteGifs, 
+    setFavoriteGifs: React.Dispatch<React.SetStateAction<FavoriteGifs>>
 }
 
 export interface State {
