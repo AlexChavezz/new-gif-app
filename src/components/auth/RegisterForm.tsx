@@ -28,8 +28,7 @@ export const RegisterForm = () => {
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        setIsLoading( true )
-        createNewUser( name, email, password )
+        createNewUser( name, email, password, confirmPassword )
     }
 
     return (

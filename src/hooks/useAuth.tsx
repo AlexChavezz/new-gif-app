@@ -1,5 +1,6 @@
 import { useContext, useState } from "react"
 import { Auth } from "../context/authContext";
+import Swal from 'sweetalert2';
 
 
 export const useAuth = () => {
@@ -22,21 +23,34 @@ export const useAuth = () => {
         })
             .then(res => res.json())
             .then(res => {
-                setIsAuthentificated(true)
-                setAuth({
-                    sesion: {
-                        email: res.user.email,
-                        name: res.user.name,
-                        uid: res.user.uid,
-                        token: res.token
-                    }
-                })
-                localStorage.setItem('token', JSON.stringify(res.token))
-                setIsLoading( false )
+                if (res.msg) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: res.msg
+                    })
+                } else if (res.errors) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: res.errors[0].msg
+                    })
+                } else {
+                    setIsAuthentificated(true)
+                    setAuth({
+                        sesion: {
+                            email: res.user.email,
+                            name: res.user.name,
+                            uid: res.user.uid,
+                            token: res.token
+                        }
+                    })
+                    localStorage.setItem('token', JSON.stringify(res.token))
+                }
             })
     }
 
-    const createNewUser = async (name:string, email:string, password: string ) => {
+    const createNewUser = async (name: string, email: string, password: string, confirmPassword: string) => {
         try {
             const response = await fetch("http://localhost:8080/api/auth/register", {
                 method: "POST",
@@ -46,11 +60,18 @@ export const useAuth = () => {
                 body: JSON.stringify({
                     name,
                     email,
-                    password
+                    password,
+                    confirmPassword
                 })
             })
             const data = await response.json()
-            if (data.user) {
+            if (data.errors.length !== 0) {
+                Swal.fire({
+                    icon: "error",
+                    title: 'Error',
+                    text: data.errors[0].msg
+                })
+            } else if (data.user) {
                 window.localStorage.setItem('token', JSON.stringify(data.token))
                 setAuth({
                     sesion: {
@@ -61,9 +82,9 @@ export const useAuth = () => {
                     }
                 })
                 setIsAuthentificated(true)
-                setIsLoading(false)
+                // setIsLoading(false)
             }
-        }catch( error ){
+        } catch (error) {
             throw new Error("Error try again")
         }
     }
@@ -78,7 +99,7 @@ export const useAuth = () => {
         logout,
         // logInWhitToken,
         logInWithOutToken,
-        createNewUser, 
+        createNewUser,
         setIsLoading
     }
 }
