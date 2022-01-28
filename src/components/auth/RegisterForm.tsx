@@ -6,16 +6,16 @@ import userLogo from '../../assests/person_black_24dp.svg'
 import passwordLogo from '../../assests/lock_black_24dp.svg'
 import emaiLogo from '../../assests/email_black_24dp.svg'
 import { useAuth } from "../../hooks/useAuth"
+import { useState } from "react"
+import { AlertError } from "./AlertError"
+import { useValidateForm } from "../../hooks/useValidateForm"
 interface RegisterFormValues {
     name: string,
     email: string,
     password: string,
     confirmPassword: string
 }
-
-
 export const RegisterForm = () => {
-
     const { values, handleChange } = useForm<RegisterFormValues>({
         name: '',
         email: '',
@@ -25,19 +25,22 @@ export const RegisterForm = () => {
     const { name, email, password, confirmPassword } = values;
 
     const { createNewUser, setIsLoading } = useAuth()
-
+    const { validateRegisterForm, resetState,error } = useValidateForm()
+    
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        createNewUser( name, email, password, confirmPassword )
+        if( validateRegisterForm(name, email, password, confirmPassword) ){
+            createNewUser(name, email, password, confirmPassword)
+            resetState()
+        }
     }
-
     return (
         <Form
             onSubmit={onSubmit}
         >
             <div className={styles.formGroup}>
                 <Input
-                    styles={ styles.input }
+                    styles={styles.input}
                     name="name"
                     value={name}
                     onChange={handleChange}
@@ -52,7 +55,7 @@ export const RegisterForm = () => {
             </div>
             <div className={styles.formGroup}>
                 <Input
-                    styles={ styles.input }
+                    styles={styles.input}
                     type="email"
                     name="email"
                     value={email}
@@ -68,7 +71,7 @@ export const RegisterForm = () => {
             </div>
             <div className={styles.formGroup}>
                 <Input
-                    styles={ styles.input }
+                    styles={styles.input}
                     type="password"
                     name="password"
                     value={password}
@@ -85,7 +88,7 @@ export const RegisterForm = () => {
             </div>
             <div className={styles.formGroup}>
                 <Input
-                    styles={ styles.input }
+                    styles={styles.input}
                     type="password"
                     name="confirmPassword"
                     value={confirmPassword}
@@ -99,9 +102,13 @@ export const RegisterForm = () => {
                     }}
                 />
             </div>
-            <SubmitButton value="Register" 
-                styles={ styles.submit }
+            <SubmitButton value="Register"
+                styles={styles.submit}
             />
+            {
+                error &&
+                <AlertError title={error.error} />
+            }
         </Form>
     )
 }

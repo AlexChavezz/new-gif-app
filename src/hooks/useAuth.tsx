@@ -65,13 +65,14 @@ export const useAuth = () => {
                 })
             })
             const data = await response.json()
-            if (data.errors.length !== 0) {
+            console.log( data )
+            if (data.errors) {
                 Swal.fire({
                     icon: "error",
                     title: 'Error',
                     text: data.errors[0].msg
                 })
-            } else if (data.user) {
+            }else{
                 window.localStorage.setItem('token', JSON.stringify(data.token))
                 setAuth({
                     sesion: {
@@ -85,6 +86,7 @@ export const useAuth = () => {
                 // setIsLoading(false)
             }
         } catch (error) {
+            console.log(error)
             throw new Error("Error try again")
         }
     }

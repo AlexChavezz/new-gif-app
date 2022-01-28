@@ -4,46 +4,29 @@ import styles from '../../styles/authStyles.module.css'
 import userLogo from '../../assests/person_black_24dp.svg'
 import passwordLogo from '../../assests/lock_black_24dp.svg'
 import { useAuth } from '../../hooks/useAuth'
-import { useState } from 'react'
+import { AlertError } from './AlertError'
+import { useValidateForm } from '../../hooks/useValidateForm'
 
 interface LoginFormData {
     email: string,
     password: string
 }
 
-type ErrorsState = {
-    name: string
-}[]
-
-const initialState = [{name:''}]
-
 export const LoginForm = () => {
-    const [error, setErrors] = useState<ErrorsState>(initialState)
     const { values, handleChange } = useForm<LoginFormData>({
         email: '',
         password: ''
     });
     const { email, password } = values;
     const { logInWithOutToken, setIsLoading } = useAuth()
+    const { validateLoginForm, error, resetState } = useValidateForm()
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         // setIsLoading( true )
-        if (validateFields()) {
+        if (validateLoginForm(email, password)) {
             logInWithOutToken(email, password)
+            resetState()
         }
-    }
-    const validateFields = () => {
-        const regularExpresion = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
-        if (!regularExpresion.test(email)) {
-            setErrors([{ name: "email is not a emai" }])
-            return false;
-        }
-        if (password.length < 6) {
-            setErrors([{ name: "password length should be min 6" }])
-            return false;
-        }
-        setErrors( initialState )
-        return true;
     }
     return (
         <Form
@@ -78,10 +61,9 @@ export const LoginForm = () => {
             </div>
             <SubmitButton value="Login" styles={styles.submit} />
             {
-                error[0].name.length > 0 &&
-                <div className={styles.errorsContainer}>
-                    { error[0].name }
-                </div>
+                error &&
+                <AlertError title={error.error} />
+
             }
         </Form>
     )
