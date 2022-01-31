@@ -1,16 +1,21 @@
-import { useContext, useEffect, useState } from 'react'
-import { Gif } from '../../../../context/gifsContext'
+import { useState } from 'react';
 import styles from '../../../../styles/homeStyles.module.css'
 import { GifForm } from './GifForm'
 import { GifsLayout } from './GifsLayout'
 
+export type categoriesArray = string[] | [];
 
-export const HomeComponent = () =>
-(
-    <section className={styles.container}>
-        <article className={styles.gifFormContainer}>
-            <GifForm />
-            <GifsLayout />
-        </article>
-    </section>
-)
+export const HomeComponent = () => {
+
+    const [ categories, setCategories ] = useState<categoriesArray>([]);
+
+
+    return (
+        <section className={styles.container}>
+            <article className={styles.gifFormContainer}>
+                <GifForm setCategories={setCategories}/>
+                <GifsLayout  categories={categories} setCategories={setCategories}/>
+            </article>
+        </section>
+    )
+}

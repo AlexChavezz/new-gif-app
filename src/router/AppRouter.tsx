@@ -8,13 +8,10 @@ import {
 import { Auth } from '../context/authContext'
 import { AuthState } from '../interfases/authContext.interfaces'
 import { AuthScreen, HomeScreen } from '../pages'
-import { Gif } from '../context/gifsContext'
-import { FavoriteGifs, State } from '../interfases/gifs.interfaces'
+import { FavoriteGifsType, State } from '../interfases/gifs.interfaces'
 // import { useAuth } from '../hooks/useAuth'
-import { collection, getDocs } from 'firebase/firestore'
-import { db } from '../firebase/config'
-import { useFetchGif } from '../hooks/useFetchGif'
 import { useFavoriteGifs } from '../hooks/useFavoriteGifs'
+import { FavoriteGifs } from '../context/favoriteGifs'
 
 
 
@@ -22,10 +19,10 @@ export default () => {
     const [isAuthentificated, setIsAuthentificated] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
     const [auth, setAuth] = useState<AuthState>({ sesion: null })
-    const [categories, setCategories] = useState<string[]>([])
-    const [ favoriteGifs, setFavoriteGifs ] = useState<FavoriteGifs>([{}])
+    // const [categories, setCategories] = useState<string[]>([])
+    const [favoriteGifs, setFavoriteGifs] = useState<FavoriteGifsType>([{}])
 
-    const {  loadFavoritesGifs }  = useFavoriteGifs()
+    const { loadFavoritesGifs } = useFavoriteGifs()
 
 
     useEffect(() => {
@@ -43,15 +40,15 @@ export default () => {
                 .then(res => {
                     if (res.error) {
                         console.log('error')
-                    }else {
+                    } else {
                         setAuth({
                             sesion: {
                                 ...res,
                                 token: jwt
                             }
                         })
-                    loadFavoritesGifs(res.uid).then( (res:any):void => setFavoriteGifs( res ))
-                }
+                        loadFavoritesGifs(res.uid).then((res: any): void => setFavoriteGifs(res))
+                    }
                     setIsAuthentificated(true)
                     setIsLoading(false)
                 })
@@ -77,12 +74,16 @@ export default () => {
             isAuthentificated,
             setIsLoading
         }}>
-            <Gif.Provider value={{
+            {/* <Gif.Provider value={{
                 categories,
-                setCategories, 
-                favoriteGifs, 
+                setCategories,
+            }}> */}
+            <FavoriteGifs.Provider value={{
+                favoriteGifs,
                 setFavoriteGifs
             }}>
+
+
                 <BrowserRouter>
                     <Routes>
                         <Route path="/*" element={<HomeScreen />} />
@@ -95,7 +96,8 @@ export default () => {
                         <Route path="*" element={<p>Not found</p>} />
                     </Routes>
                 </BrowserRouter>
-            </Gif.Provider>
+            </FavoriteGifs.Provider>
+            {/* </Gif.Provider> */}
         </Auth.Provider>
     )
 }

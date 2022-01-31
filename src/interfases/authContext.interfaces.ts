@@ -8,7 +8,6 @@ export interface AuthState {
     } | null
 }
 
-
 export interface AuthContext {
     auth: AuthState | null, 
     isAuthentificated: boolean,

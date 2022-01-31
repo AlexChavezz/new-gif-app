@@ -1,24 +1,26 @@
 import { addDoc, collection, connectFirestoreEmulator, doc, setDoc } from "firebase/firestore";
-import { useContext } from "react";
-import { Gif } from "../../../../context/gifsContext";
-import { db } from "../../../../firebase/config";
+import React, { useContext, useState } from "react";
+import { FavoriteGifs } from "../../../../context/favoriteGifs";
+import { sendGifToFirebase } from "../../../../helpers/favoriteGifs";
 import { useAuth } from "../../../../hooks/useAuth";
 import { useFavoriteGifs } from "../../../../hooks/useFavoriteGifs";
 import { State } from "../../../../interfases/gifs.interfaces";
 import styles from '../../../../styles/homeStyles.module.css'
 
-export const Item = (element: State) => {
-    const { auth } = useAuth()
-    const {  favoriteGifs , setFavoriteGifs } = useContext( Gif )
-    const saveItem = async () => {
-        // addNewFavoriteGif(element)
-        setFavoriteGifs([...favoriteGifs, element])
-        await setDoc(doc(db,  `${auth?.sesion?.uid}`, `${element.id}`), element);
-    }
+export const Item = React.memo((element: State) => {
+    const { auth, isAuthentificated } = useAuth();
+    const { favoriteGifs, setFavoriteGifs }  = useContext( FavoriteGifs )
 
+    const saveItem = () => {
+        sendGifToFirebase(auth, element)
+        setFavoriteGifs([...favoriteGifs, element])
+    }
+    console.log('me genere ')
     /*
     
     -> Fix refresh when favoriteGifsState changes
+    -> try to move  category state to a level less
+    
     
     */
     return (
@@ -32,10 +34,10 @@ export const Item = (element: State) => {
                     </a>
                     <button
                         className={styles.gifTargetButton}
-                        onClick={saveItem}
+                        onClick={() => saveItem()}
                     > Add Favorites</button>
                 </div>
             </div>
         </div>
     )
-}
+})
