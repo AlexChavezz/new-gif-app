@@ -1,5 +1,6 @@
 import { collection, getDocs } from "firebase/firestore"
 import { useContext } from "react"
+import { Auth } from "../context/authContext"
 import { FavoriteGifs } from "../context/favoriteGifs"
 import { db } from "../firebase/config"
 import { State } from "../interfases/gifs.interfaces"
@@ -9,7 +10,6 @@ export const useFavoriteGifs = () => {
 
     const loadFavoritesGifs = async (uid:string) => {
         let  gifs: {}[] = []
-        console.log(uid);
         const query = await getDocs(collection (db, `${uid}`) )
         query.forEach( doc => {
             gifs = [...gifs, {

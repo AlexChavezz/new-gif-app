@@ -11,7 +11,7 @@ export const useAuth = () => {
         setIsAuthentificated(false)
     }
     const logInWithOutToken = (email: string, password: string) => {
-        fetch("http://localhost:8080/api/auth/login", {
+        fetch("https://gif-app-back-end.herokuapp.com/api/auth/login", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -52,7 +52,7 @@ export const useAuth = () => {
 
     const createNewUser = async (name: string, email: string, password: string, confirmPassword: string) => {
         try {
-            const response = await fetch("http://localhost:8080/api/auth/register", {
+            const response = await fetch("https://gif-app-back-end.herokuapp.com/api/auth/register", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
@@ -65,7 +65,6 @@ export const useAuth = () => {
                 })
             })
             const data = await response.json()
-            console.log( data )
             if (data.errors) {
                 Swal.fire({
                     icon: "error",
@@ -86,7 +85,6 @@ export const useAuth = () => {
                 // setIsLoading(false)
             }
         } catch (error) {
-            console.log(error)
             throw new Error("Error try again")
         }
     }

@@ -1,5 +1,5 @@
 import styles from '../../styles/homeStyles.module.css'
-import { Link } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 import { useAuth } from '../../hooks/useAuth'
 
 export const Header = () => {
@@ -16,13 +16,28 @@ export const Header = () => {
             <div className={styles.headerNavUl}>
                 <ul className={styles.list}>
                     <li className={styles.listItem}>
-                        <Link to="/" className={styles.listLink}>Home</Link>
+                        <NavLink
+                            to="/"
+                            style={({ isActive }) =>
+                                isActive ? { color: 'gold', textDecoration: 'none' } : { color: '#fff', textDecoration: 'none' }
+                            }
+                        >Home</NavLink>
                     </li>
                     <li className={styles.listItem}>
-                        <Link to="/favorites" className={styles.listLink}>Favorites</Link>
+                        <NavLink
+                            to="/favorites"
+                            style={({ isActive }) =>
+                                isActive ? { color: 'gold', textDecoration: 'none' } : { color: '#fff', textDecoration: 'none' }
+                            }
+                        >Favorites</NavLink>
                     </li>
                     <li className={styles.listItem}>
-                        <Link to="/history" className={styles.listLink}>History</Link>
+                        <NavLink
+                            to="/history"
+                            style={({ isActive }) =>
+                                isActive ? { color: 'gold', textDecoration: 'none' } : { color: '#fff', textDecoration: 'none' }
+                            }
+                        >History</NavLink>
                     </li>
                     <li className={styles.listItemLine}></li>
                     {
@@ -34,9 +49,9 @@ export const Header = () => {
                                     </li>
                                 </Link>
                             ) : (
-                                <li 
+                                <li
                                     className={styles.listItemAuth}
-                                    onClick={ () => logout() }
+                                    onClick={() => logout()}
                                 >
                                     LOGOUT
                                 </li>

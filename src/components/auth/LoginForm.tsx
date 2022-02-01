@@ -60,11 +60,12 @@ export const LoginForm = () => {
                 }} />
             </div>
             <SubmitButton value="Login" styles={styles.submit} />
-            {
-                error &&
-                <AlertError title={error.error} />
-
-            }
+            <>
+                {
+                    error.error &&
+                    <AlertError title={error.message} />
+                }
+            </>
         </Form>
     )
 }

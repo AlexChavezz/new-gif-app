@@ -9,7 +9,6 @@ import { Auth } from '../context/authContext'
 import { AuthState } from '../interfases/authContext.interfaces'
 import { AuthScreen, HomeScreen } from '../pages'
 import { FavoriteGifsType, State } from '../interfases/gifs.interfaces'
-// import { useAuth } from '../hooks/useAuth'
 import { useFavoriteGifs } from '../hooks/useFavoriteGifs'
 import { FavoriteGifs } from '../context/favoriteGifs'
 
@@ -19,8 +18,7 @@ export default () => {
     const [isAuthentificated, setIsAuthentificated] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
     const [auth, setAuth] = useState<AuthState>({ sesion: null })
-    // const [categories, setCategories] = useState<string[]>([])
-    const [favoriteGifs, setFavoriteGifs] = useState<FavoriteGifsType>([{}])
+    const [favoriteGifs, setFavoriteGifs] = useState<FavoriteGifsType>([])
 
     const { loadFavoritesGifs } = useFavoriteGifs()
 
@@ -30,7 +28,7 @@ export default () => {
         const jwt = JSON.parse(token)
         if (token) {
 
-            fetch("http://localhost:8080/api/auth/validate", {
+            fetch("https://gif-app-back-end.herokuapp.com/api/auth/validate", {
                 method: "GET",
                 headers: {
                     'x-token': jwt,
@@ -47,6 +45,7 @@ export default () => {
                                 token: jwt
                             }
                         })
+                        // setIsLoading( true )
                         loadFavoritesGifs(res.uid).then((res: any): void => setFavoriteGifs(res))
                     }
                     setIsAuthentificated(true)

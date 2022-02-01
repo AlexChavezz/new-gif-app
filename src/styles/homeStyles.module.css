@@ -290,3 +290,18 @@
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     position: relative;
 }
+/*
+
+    -> favorite screen
+
+*/
+.favoriteContainer {
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    height:calc(100vh - 75px);
+}
+.favoriteContainerParrafo {
+    /* font-size:25px; */
+    margin-top:50px;
+}

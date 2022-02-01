@@ -11,11 +11,10 @@ export const GifItem = React.memo(({ category }: GifItemProps) => {
             <p className={styles.gifTitlte} >{category}</p>
             {
                 state.data.map((element: State) =>
-                        <Item {...element} key={ element.id } />
+                    <Item {...element} key={element.id} />
                 )
             }
         </>
     )
 })
-
 

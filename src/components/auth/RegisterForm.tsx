@@ -6,7 +6,6 @@ import userLogo from '../../assests/person_black_24dp.svg'
 import passwordLogo from '../../assests/lock_black_24dp.svg'
 import emaiLogo from '../../assests/email_black_24dp.svg'
 import { useAuth } from "../../hooks/useAuth"
-import { useState } from "react"
 import { AlertError } from "./AlertError"
 import { useValidateForm } from "../../hooks/useValidateForm"
 interface RegisterFormValues {
@@ -24,12 +23,12 @@ export const RegisterForm = () => {
     })
     const { name, email, password, confirmPassword } = values;
 
-    const { createNewUser, setIsLoading } = useAuth()
-    const { validateRegisterForm, resetState,error } = useValidateForm()
-    
+    const { createNewUser } = useAuth()
+    const { validateRegisterForm, resetState, error } = useValidateForm()
+
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        if( validateRegisterForm(name, email, password, confirmPassword) ){
+        if (validateRegisterForm(name, email, password, confirmPassword)) {
             createNewUser(name, email, password, confirmPassword)
             resetState()
         }
@@ -105,10 +104,12 @@ export const RegisterForm = () => {
             <SubmitButton value="Register"
                 styles={styles.submit}
             />
-            {
-                error &&
-                <AlertError title={error.error} />
-            }
+            <>
+                {
+                    error.error &&
+                    <AlertError title={error.message} />
+                }
+            </>
         </Form>
     )
 }

@@ -6,45 +6,51 @@ interface useValidateFormProps {
     password?: string,
     confirmPassword?: string,
 }
-type ErrorsState = {
-    error: string
+interface ErrorsState {
+    error: boolean,
+    message: string
+}
+const initialState = {
+    error:false,
+    message:''
 }
 export const useValidateForm = () => {
 
     const regularExpresionToValidateEmailFiels = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
-    const [error, setError] = useState<ErrorsState | null>(null)
+    const [error, setError] = useState<ErrorsState>( initialState )
     const resetState = () => {
-        setError( null )
+        setError( initialState )
     }
     const validateLoginForm = ( email: string, password: string) => {
         if (!regularExpresionToValidateEmailFiels.test(email)) {
-            setError({ error: "email is not a type emai expression" })
+            setError({...error, message: "email is not a type emai expression" })
             return false;
         }
         if (password.length < 6) {
-            setError({ error: "password length should be min 6" })
+            setError({...error, message: "password length should be min 6" })
             return false;
         }
-        setError( null )
+        setError( initialState )
         return true;
     }
     const validateRegisterForm = (name: string, email: string, password: string, confirmPassword: string) => {
         if (name.length < 3) {
-            setError({ error: 'name length should be min 3' })
+            setError({...error, message: 'name length should be min 3' })
             return false;
         }
         if (!regularExpresionToValidateEmailFiels.test(email)) {
-            setError({ error: 'email should be like @something.com' })
+            setError({...error,  message: 'email should be like @something.com' })
             return false;
         }
         if( password.length < 6){
-            setError({ error: 'password min length' })
+            setError({...error,  message: 'password length should be min 6' })
             return false;
         }
         if (password !== confirmPassword) {
-            setError({ error: 'passwords do not match' })
+            setError({...error,  message: 'passwords do not match' })
             return false;
         }
+        setError( initialState )
         return true;
     }
     return {

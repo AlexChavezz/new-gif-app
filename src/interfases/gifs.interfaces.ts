@@ -1,6 +1,6 @@
 
 
-export type FavoriteGifsType = State[] | [{}]
+export type FavoriteGifsType = State[] | []
 
 export interface FavoritGifsContext {
     favoriteGifs:FavoriteGifsType,
@@ -16,12 +16,10 @@ export interface State {
     id: string,
     title: string,
     url: string,
-    giphyUrl: string
-    setModal: React.Dispatch<React.SetStateAction<boolean>>
+    giphyUrl: string,
+    setModal: React.Dispatch<React.SetStateAction<boolean>>,
+    isFavorite?: boolean
 }
 export interface GifItemProps {
     category: string,
 }
-
-
-// export type Categories = string[] 
